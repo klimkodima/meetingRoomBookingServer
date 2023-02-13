@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "down": "node util\\downMigration.js",
     "debug": "nodemon --inspect index.js",
     "lint": "eslint index.js controllers util models",
     "stress": "artillery quick --count 10 -n 20 http://localhost:3000/",
@@ -15,15 +16,21 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
+    "fs": "^0.0.1-security",
     "helmet": "^6.0.1",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.20",
+    "path": "^0.12.7",
     "sequelize": "^6.28.0",
-    "sqlite3": "^5.1.4"
+    "sqlite3": "^5.1.4",
+    "umzug": "^3.2.1",
+    "unique": "^0.0.1"
   }
 }

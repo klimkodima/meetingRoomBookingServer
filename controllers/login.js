@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const router = require('express').Router()
-//const { User, Session } = require('../models')
+const { User, Session } = require('../models')
 const { tokenExtractor } = require('../util/middleware')
-/*
+
 router.post('/', async (req, res) => {
   const body = req.body
   const user = await User.findOne({
@@ -47,5 +47,5 @@ router.delete('/', tokenExtractor, async (req, res) => {
     throw Error('ValidationError'+ error)
   }
 })
-*/
+
 module.exports = router
