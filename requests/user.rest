@@ -1,0 +1,46 @@
+
+GET http://localhost:5000/api/v2/user/current
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkVnb3IgRWdvcm92IiwiaWQiOjQsImlhdCI6MTY3NjI5NDE5OCwiZXhwIjoxNjc3MTU4MTk4fQ.SmfFmYoniJCPKj88K2l9G4cKvi9Le-soNHueoAX1hmc
+
+GET http://localhost:5000/api/v2/user
+
+###
+POST http://localhost:5000/api/v2/user 
+content-type: application/json
+
+{
+    "fullName": "Egor Egorov",
+    "username": "Egor Egorov",
+    "email": "e.egorov@gpsolutions.com",
+    "enabled": true,
+    "roleName": "ADMIN",
+    "password": "secret11"
+}
+###
+POST http://localhost:5000/api/v2/user 
+content-type: application/json
+
+{
+    "fullName": "Elena Egorova",
+    "username": "Elena Egorova",
+    "email": "e.egorova@gpsolutions.com",
+    "enabled": true,
+    "roleName": "AUDITOR",
+    "password": "secret11"
+}
+###
+POST http://localhost:5000/api/v2/user 
+content-type: application/json
+
+{
+    "fullName": "Klimko Dima",
+    "username": "Klimko Dima",
+    "email": "el.egorova@gpsolutions.com",
+    "enabled": true,
+    "roleName": "TEAMLEAD",
+    "password": "secret11"
+}
+
+### 
+DELETE http://localhost:5000/api/v2/user/2
+

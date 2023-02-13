@@ -1,13 +1,12 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
-//const { upload } = require('../util/fileStorage')
-//const { User, Team, Session } = require('../models')
+const { upload } = require('../util/fileStorage')
+const { User, Session } = require('../models')
 const { SALTROUNDS } = require('../util/config')
-//const sendEmail = require('../util/sendEmail')
 const { tokenExtractor } = require('../util/middleware')
 //const { format } = require('date-fns')
-//const generator = require('generate-password')
-/*
+const generator = require('unique')
+
 const userFinder = async (req, res, next) => {
   req.user = await User.findByPk(req.params.id)
   if (!req.user) throw Error('malformatted id')
@@ -16,7 +15,7 @@ const userFinder = async (req, res, next) => {
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
-    attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+    attributes: { exclude: ['password'] }
   })
   res.json(users)
 })
@@ -27,22 +26,13 @@ router.post('/', async (req, res) => {
       return res.status(400).send({ error: 'Password validation failed: password: Path `password` (`as`) is shorter than the minimum allowed length (8).' })
     }
     req.body.password = await bcrypt.hash(req.body.password, SALTROUNDS)
-    if (!req.body.worksFrom) req.body.worksFrom = format(new Date(), 'yyyy-MM-dd')
-
-    if (req.body.teamName) {
-      const team = await Team.findOne({
-        where: {
-          teamName: req.body.teamName
-        }
-      })
-      req.body.teamId = team.id
-    }
     const user = await User.create(req.body)
     res.json(user)
   } catch (error) {
     return res.status(400).json({ error })
   }
 })
+
 
 router.get('/current', tokenExtractor, async (req, res) => {
   try {
@@ -53,8 +43,7 @@ router.get('/current', tokenExtractor, async (req, res) => {
     })
     const user = await User.findByPk(session.userId, {
       attributes: {
-        exclude: ['avatarUrl', 'createdAt', 'updatedAt', 'password',
-          'thirdParty', 'worksFrom', 'email', 'jiraAccountId', 'pending']
+        exclude: ['avatarUrl', 'password', 'email']
       }
     })
     if (user) {
@@ -69,9 +58,7 @@ router.get('/current', tokenExtractor, async (req, res) => {
 
 router.patch('/activate/:id', userFinder, async (req, res) => {
   if (req.user) {
-    req.user.thirdParty = req.query.thirdParty
     req.user.roleName = req.query.role
-    req.user.pending = false
     req.user.enabled = true
     await req.user.save()
     res.status(204).end()
@@ -111,14 +98,14 @@ router.patch('/resetpassword/:id', userFinder, async (req, res) => {
 })
 
 /* eslint-disable no-unused-vars */
-/*router.patch(
+router.patch(
   '/updateavatar/:id/:avatarUrl',
   upload.single('avatarImage'),
   userFinder,
   async (req, res, next) => {
     /* eslint-enable no-unused-vars */
-   /* if (req.user) {
-      req.user.avatarUrl = `http://localhost:3001/api/v2/image/${req.fileName}`
+    if (req.user) {
+      req.user.avatarUrl = `http://localhost:5000/api/v2/image/${req.fileName}`
       await req.user.save()
       if (!req.file || Object.keys(req.file).length === 0) {
         return res.status(400).send('No files were uploaded.')
@@ -149,5 +136,5 @@ router.delete('/:id', userFinder, async (req, res) => {
     res.status(404).end()
   }
 })
-*/
+
 module.exports = router
